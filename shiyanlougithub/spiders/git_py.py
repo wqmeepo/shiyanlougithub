@@ -16,10 +16,10 @@ class GitPySpider(scrapy.Spider):
             request.meta['item'] = item
             yield request
         url = response.xpath('//div[@class="pagination"]//@href').extract_first()
-        yield response.follow(url, callback= parse)
+        yield response.follow(url, callback=self.parse)
 
     def parse_inter(self, response):
-        item = request['item']
+        item = response.meta['item']
         item['commits'] = response.xpath('//span[@class="num text-emphasized"]/text()').extract()[0].strip()
         item['branches'] = response.xpath('//span[@class="num text-emphasized"]/text()').extract()[0].strip()
         item['releases'] = response.xpath('//span[@class="num text-emphasized"]/text()').extract()[2].strip()
